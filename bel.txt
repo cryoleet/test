@@ -1,0 +1,60 @@
+/* *****************************************************************************
+ *  Name:              Ada Lovelace
+ *  Coursera User ID:  123456
+ *  Last modified:     October 16, 1842
+ **************************************************************************** */
+
+import java.util.Scanner;
+
+public class Bel {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        System.out.println("Enter number of nodes: ");
+        n = sc.nextInt();
+
+        int adj[][] = new int[n][n];
+        System.out.println("Enter adjacency matrix: ");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                adj[i][j] = sc.nextInt();
+            }
+        }
+
+
+        int source;
+        System.out.println("Enter source node: ");
+        source = sc.nextInt();
+
+        belman(source, adj, n);
+    }
+
+    private static void belman(int source, int adj[][], int n) {
+
+        int d[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            d[i] = 999;
+        }
+
+        d[source] = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    if (d[u] != 999) {
+                        if (d[v] > d[u] + adj[u][v]) {
+                            d[v] = d[u] + adj[u][v];
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.println(source + " -> " + i + " = " + d[i]);
+        }
+    }
+}
+

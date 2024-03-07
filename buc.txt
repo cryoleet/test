@@ -1,0 +1,69 @@
+
+import java.util.Scanner;
+
+public class Lbucket {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int b_size;
+        System.out.println("Enter bucket size: ");
+        b_size = sc.nextInt();
+
+        int op_rate;
+        System.out.println("Enter output rate: ");
+        op_rate = sc.nextInt();
+
+        int n;
+        System.out.println("Enter number of packets: ");
+        n = sc.nextInt();
+
+        int pkts[] = new int[n];
+        System.out.println("Enter packets: ");
+        for (int i = 0; i < n; i++) {
+            pkts[i] = sc.nextInt();
+        }
+
+        System.out.println("received packet\tacc/rej\tbucket size\tremaining bucket size");
+
+        int buc_content = 0, rem_buc_content = 0;
+        for (int i = 0; i < n; i++) {
+            buc_content = rem_buc_content;
+            buc_content += pkts[i];
+
+            if (buc_content > b_size) {
+                buc_content = rem_buc_content;
+                rem_buc_content -= op_rate;
+
+                if (rem_buc_content < 0) {
+                    rem_buc_content = 0;
+                }
+
+                System.out.println(
+                        pkts[i] + "\t" + "rej" + "\t" + buc_content + "\t" + rem_buc_content);
+            }
+            else {
+                rem_buc_content = buc_content;
+                rem_buc_content -= op_rate;
+
+                if (rem_buc_content < 0) {
+                    rem_buc_content = 0;
+                }
+
+                System.out.println(
+                        pkts[i] + "\t" + "acc" + "\t" + buc_content + "\t" + rem_buc_content);
+            }
+        }
+
+        while (rem_buc_content > 0) {
+            rem_buc_content -= op_rate;
+            if (rem_buc_content < 0) {
+                rem_buc_content = 0;
+            }
+            System.out.println("remaining content: " + rem_buc_content);
+        }
+
+
+    }
+}
+
